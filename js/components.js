@@ -193,6 +193,60 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 5000);
     };
+
+    // Funções para a página Sobre
+
+// FAQ Accordion (se reutilizar)
+function initFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector('i');
+            
+            // Toggle resposta
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            
+            // Rotacionar ícone
+            icon.style.transform = icon.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    });
+}
+
+// Animar números nas estatísticas
+function animateStats() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    statNumbers.forEach(stat => {
+        const target = parseInt(stat.textContent);
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            stat.textContent = Math.floor(current) + (stat.textContent.includes('%') ? '%' : 
+                            stat.textContent.includes('R$') ? 'B' : '');
+        }, 30);
+    });
+}
+
+// Inicializar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar se estamos na página sobre
+    if (document.querySelector('.timeline-section')) {
+        // Iniciar animações
+        setTimeout(animateStats, 500);
+    }
+    
+    // Iniciar FAQ se existir
+    if (document.querySelector('.faq-question')) {
+        initFAQ();
+    }
+});
     
     // ===== COPY TO CLIPBOARD =====
     window.copyToClipboard = function(text) {
